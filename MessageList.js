@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Message from "./Message";
 
-function MessageList() {
-  const [messages, setMessages] = useState([])
+function MessageList({ messages, currentUser, onMessageDelete, onUpdateMessage }) {
   
-  useEffect(() => {
-    fetch("/messages")
-        .then(r => r.json())
-        .then(data => setMessages(data.messages))
-  }, [])
-  
-
   return (
     <div className="list">
       <ul>{messages.map(message => (
-        <Message key={message.id} username={message.username} body={message.body} createdAt={message.created_at} />
+        <Message key={message.id} message={message} currentUser={currentUser} onMessageDelete={onMessageDelete} onUpdateMessage={onUpdateMessage} />
       ))}</ul>
     </div>
   );

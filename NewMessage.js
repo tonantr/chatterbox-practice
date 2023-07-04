@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-function NewMessage({ currentUser }) {
-  const [body, setBody] = useState("test message")
+function NewMessage({ currentUser, onAddMessage }) {
+  const [body, setBody] = useState("")
   
   function handleSubmit(e) {
     e.preventDefault()
@@ -12,6 +12,7 @@ function NewMessage({ currentUser }) {
         created_at: new Date().toUTCString()
       }
     }
+    
     fetch("/messages", {
       method: "POST",
       headers: {
@@ -20,7 +21,10 @@ function NewMessage({ currentUser }) {
       body: JSON.stringify(data)
     })
       .then(r => r.json())
-      .then(data => console.log(data))
+      .then(data => {
+        onAddMessage(data.message)
+        setBody("")
+      })
   }
   
   return (
@@ -32,4 +36,3 @@ function NewMessage({ currentUser }) {
 }
 
 export default NewMessage;
-
